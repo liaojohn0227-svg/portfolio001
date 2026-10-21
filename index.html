@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Joshua Liao | Architecture Portfolio</title>
+  <meta name="description" content="Architecture portfolio of Joshua Liao, architecture student at National Taiwan University of Science and Technology">
+  <meta name="theme-color" content="#ffffff">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Joshua Liao | Architecture Portfolio">
+  <meta property="og:description" content="Architecture portfolio of Joshua Liao, architecture student at National Taiwan University of Science and Technology">
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400&family=Noto+Serif+TC:wght@300;400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <a href="#main" class="skip">Skip to main content</a>
+
+  <header class="grid header">
+    <a href="index.html" class="name">Joshua</a>
+    <nav aria-label="Main menu">
+      <button class="menu-btn" aria-expanded="false" aria-controls="menu">Menu</button>
+      <ul id="menu">
+        <li><a href="#works">Work</a></li>
+        <li><a href="#about">About</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main id="main">
+    <!-- Hero: vertical name + one featured project -->
+    <section class="grid hero">
+      <h1 class="hero-title arrive">
+        <span class="main">Joshua Liao</span>
+        <span class="sub">Architecture Portfolio</span>
+      </h1>
+      <a href="project-01.html" class="hero-image plate r-3x2 arrive arrive-late" aria-label="Warmth Within the Scars">
+        <img src="images/hero.jpg" alt="Warmth Within the Scars">
+      </a>
+      <p class="hero-caption small">Warmth Within the Scars, Tamsui, 2026</p>
+    </section>
+
+    <!-- Short intro -->
+    <section class="grid intro">
+      <p>I grew up outside Taiwan's school system, homeschooled from elementary school, and now study architecture at National Taiwan University of Science and Technology. Sound, music and nature have shaped how I see space, and I hope to use design to help the people and places around me.</p>
+      <a href="#about" class="more link">About me</a>
+    </section>
+
+    <!-- Work -->
+    <section class="grid section" id="works">
+      <h2 class="section-label">Work<span class="small">作品</span></h2>
+      <div class="works">
+        <a href="project-01.html" class="work work-1">
+          <div class="plate r-3x2">
+            <img src="images/p01-cover.jpg" alt="Warmth Within the Scars">
+          </div>
+          <div class="caption">
+            <span class="num small">01</span>
+            <h3>Warmth Within the Scars</h3>
+            <span class="meta small">Children's home, Tamsui, 2026</span>
+          </div>
+        </a>
+        <a href="project-02.html" class="work work-2">
+          <div class="plate r-4x5">
+            <img src="images/p02-cover.jpg" alt="The True Meaning of Love" loading="lazy">
+          </div>
+          <div class="caption">
+            <span class="num small">02</span>
+            <h3>The True Meaning of Love</h3>
+            <span class="meta small">Church, Taipei, 2024</span>
+          </div>
+        </a>
+        <a href="project-03.html" class="work work-3">
+          <div class="plate r-3x4">
+            <img src="images/p03-cover.jpg" alt="Dreaming Back to 2023" loading="lazy">
+          </div>
+          <div class="caption">
+            <span class="num small">03</span>
+            <h3>Dreaming Back to 2023</h3>
+            <span class="meta small">Theatre, Taipei, 2023</span>
+          </div>
+        </a>
+        <a href="project-04.html" class="work work-4">
+          <div class="plate r-16x9">
+            <img src="images/p04-cover.jpg" alt="NEW Living Culture" loading="lazy">
+          </div>
+          <div class="caption">
+            <span class="num small">04</span>
+            <h3>NEW Living Culture</h3>
+            <span class="meta small">Social housing, Taoyuan, 2024</span>
+          </div>
+        </a>
+      </div>
+    </section>
+
+    <!-- About -->
+    <section class="grid section" id="about">
+      <h2 class="section-label">About<span class="small">關於</span></h2>
+      <div class="about">
+        <div class="portrait plate r-3x4">
+          <img src="images/me.jpg" alt="Portrait of Joshua Liao" loading="lazy">
+        </div>
+        <div class="text">
+          <p>I grew up outside the mainstream school system. From elementary school I was homeschooled, studying subjects that schools don't usually teach. In the second half of my junior year of high school I began preparing for the university entrance exams, and went on to study architecture at National Taiwan University of Science and Technology.</p>
+          <p>Growing up, sound, music and the natural environment were the things I spent the most time with. In graduate school, I hope to deepen what I have learned so far, and to put my training to work helping the people and places around me.</p>
+          <dl class="facts">
+            <dt>Education</dt><dd>National Taiwan University of Science and Technology, Department of Architecture</dd>
+            <dt>Software</dt><dd>Rhino, Revit, AutoCAD, Adobe</dd>
+            <dt>Languages</dt><dd>Mandarin, English</dd>
+          </dl>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="grid footer" id="contact">
+    <h2 class="section-label">Contact<span class="small">聯絡</span></h2>
+    <div class="contact">
+      <a href="mailto:liaojohn0227@gmail.com" class="email"><span class="link">liaojohn0227@gmail.com</span></a>
+      <ul class="social">
+        <li><a href="#">Instagram</a></li>
+        <li><a href="#">LinkedIn</a></li>
+        <li><a href="#">GitHub</a></li>
+      </ul>
+    </div>
+    <p class="copy small">© 2026 Joshua Liao</p>
+  </footer>
+
+  <script src="js/main.js"></script>
+</body>
+</html>

@@ -1,0 +1,443 @@
+/* =========================================================
+   Portfolio — v2.1
+   建築專刊的質感：明體、細字、不對稱留白，讓圖片說話。
+   ---------------------------------------------------------
+   目錄
+   1. 設定（顏色、字體、尺寸）
+   2. 基本樣式
+   3. 共用元件（格線、圖片、小字、連結）
+   4. 頁首
+   5. 首頁：主視覺、簡介、作品、關於
+   6. 頁尾
+   7. 作品內頁
+   8. 404
+   9. 平板 / 手機
+   ========================================================= */
+
+/* ---------- 1. 設定 ---------- */
+:root {
+  --paper: #ffffff;
+  --ink: #2a2a28;          /* 石墨色，不用純黑 */
+  --mute: #74746e;         /* 次要文字（對白底對比 4.6:1，小字也清楚） */
+  --line: #e4e4e0;         /* 細線 */
+  --plate: #ecece9;        /* 圖片佔位，也是真實照片載入前的底色 */
+
+  --serif: "Noto Serif TC", "Noto Serif CJK TC", "Songti TC", "PMingLiU", serif;
+  --sans: "Inter", "Noto Serif TC", "Noto Serif CJK TC", "Helvetica Neue", Arial, sans-serif;
+
+  --page: 1360px;
+  --side: 56px;
+  --gutter: 32px;
+  --gap-section: 200px;
+
+  --ease: cubic-bezier(.2, .6, .2, 1);
+}
+
+/* ---------- 2. 基本樣式 ---------- */
+*, *::before, *::after { box-sizing: border-box; }
+* { margin: 0; padding: 0; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--serif);
+  font-weight: 300;
+  font-size: 16px;
+  line-height: 2;
+  letter-spacing: 0.04em;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  line-break: strict;        /* 標點不出現在行首 */
+  text-autospace: normal;    /* 中英文之間自動留一點空隙（新版瀏覽器） */
+}
+
+p, dd, figcaption { text-wrap: pretty; }   /* 避免最後一行只剩一個字 */
+
+a { color: inherit; text-decoration: none; }
+img { display: block; width: 100%; height: 100%; object-fit: cover; }
+ul { list-style: none; }
+
+:focus-visible { outline: 1px solid var(--ink); outline-offset: 4px; }
+::selection { background: var(--ink); color: var(--paper); }
+
+[id] { scroll-margin-top: 40px; }
+
+/* 鍵盤使用者：跳到主要內容 */
+.skip {
+  position: absolute;
+  left: var(--side);
+  top: -100px;
+  background: var(--paper);
+  padding: 8px 0;
+  font-size: 14px;
+  z-index: 20;
+}
+.skip:focus { top: 8px; }
+
+/* ---------- 3. 共用元件 ---------- */
+
+/* 12 欄格線 */
+.grid {
+  max-width: var(--page);
+  margin: 0 auto;
+  padding: 0 var(--side);
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  column-gap: var(--gutter);
+}
+
+/* 圖片框：之後在裡面放 <img> 即可 */
+.plate { background: var(--plate); overflow: hidden; }
+.r-3x2  { aspect-ratio: 3 / 2; }
+.r-4x5  { aspect-ratio: 4 / 5; }
+.r-3x4  { aspect-ratio: 3 / 4; }
+.r-16x9 { aspect-ratio: 16 / 9; }
+.r-21x9 { aspect-ratio: 21 / 9; }
+.r-1x1  { aspect-ratio: 1 / 1; }
+
+/* 小字：英文、數字、圖說、資訊 */
+.small {
+  font-family: var(--sans);
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 1.8;
+  letter-spacing: 0.06em;
+  color: var(--mute);
+  font-variant-numeric: tabular-nums;
+}
+
+/* 有底線的文字連結 */
+.link {
+  border-bottom: 1px solid var(--ink);
+  padding-bottom: 3px;
+  transition: opacity .4s;
+}
+a:hover .link, a.link:hover { opacity: .5; }
+
+/* 左欄的小標（作品／關於／聯絡） */
+.section-label {
+  grid-column: 1 / 4;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.8;
+}
+.section-label .small { display: block; }
+
+/* 進場：每頁只有主圖這一個動作 */
+.arrive { animation: arrive 1.6s var(--ease) both; }
+.arrive-late { animation-delay: .25s; }
+@keyframes arrive { from { opacity: 0; } to { opacity: 1; } }
+
+/* ---------- 4. 頁首 ---------- */
+.header {
+  padding-top: 36px;
+  padding-bottom: 36px;
+  align-items: baseline;
+  position: relative;
+}
+.header .name {
+  grid-column: 1 / 4;
+  font-size: 16px;
+  font-weight: 400;
+  letter-spacing: 0.2em;
+  justify-self: start;
+}
+.header nav { grid-column: 4 / 13; justify-self: end; }
+.header ul { display: flex; gap: 40px; font-size: 14px; }
+.header nav a {
+  padding-bottom: 2px;
+  border-bottom: 1px solid transparent;
+  transition: border-color .4s;
+}
+.header nav a:hover,
+.header nav a[aria-current] { border-color: var(--ink); }
+.menu-btn { display: none; }
+
+/* ---------- 5. 首頁 ---------- */
+
+/* 主視覺：直排名字 + 一張作品 */
+.hero { margin-top: 48px; }
+.hero-title {
+  grid-column: 1 / 4;
+  align-self: start;
+  justify-self: start;
+  display: flex;
+  flex-direction: row-reverse;   /* 由右往左讀：名字在右，副標在左 */
+  align-items: flex-start;
+  gap: 22px;
+  font-weight: 300;
+}
+/* 直排：每行只放一個字（所有瀏覽器都穩定） */
+.hero-title > span {
+  display: block;
+  width: 0.9em;
+  word-break: break-all;
+  letter-spacing: 0;
+}
+.hero-title .main { font-size: 44px; line-height: 1.5; }
+.hero-title .sub  { font-size: 14px; line-height: 1.9; color: var(--mute); margin-top: 6px; }
+
+.hero-image { grid-column: 4 / 13; }
+.hero-caption { grid-column: 4 / 13; justify-self: end; margin-top: 14px; }
+
+/* 簡介 */
+.intro { margin-top: 160px; }
+.intro p {
+  grid-column: 4 / 10;
+  font-size: 20px;
+  line-height: 2.2;
+}
+.intro .more { grid-column: 4 / 10; justify-self: start; margin-top: 32px; font-size: 14px; }
+
+/* 區段 */
+.section { margin-top: var(--gap-section); align-items: start; }
+.section > .section-label { position: sticky; top: 40px; }
+
+/* 作品：不對稱的版面 */
+.works {
+  grid-column: 4 / 13;
+  display: grid;
+  grid-template-columns: repeat(9, minmax(0, 1fr));
+  column-gap: var(--gutter);
+  row-gap: 140px;
+}
+.work { display: block; }
+.work-1 { grid-column: 1 / 10; }
+.work-2 { grid-column: 1 / 6; }
+.work-3 { grid-column: 7 / 10; margin-top: 45%; }
+.work-4 { grid-column: 3 / 10; }
+
+.caption {
+  display: grid;
+  grid-template-columns: 2.5em 1fr;
+  margin-top: 18px;
+  line-height: 1.7;
+}
+.caption .num { padding-top: 2px; }
+.caption h3 {
+  font-size: 15px;
+  font-weight: 400;
+  text-wrap: balance;
+  /* 底線用 text-decoration：標題換成兩行時，每一行都會有底線 */
+  text-decoration: underline 1px transparent;
+  text-underline-offset: 5px;
+  transition: text-decoration-color .5s var(--ease);
+}
+.caption .meta { grid-column: 2; margin-top: 2px; }
+
+/* 只在有滑鼠的裝置上做 hover（手機點了不會卡在放大狀態） */
+@media (hover: hover) {
+  .work .plate > * { transition: transform 1.4s var(--ease); }
+  .work:hover .plate > * { transform: scale(1.02); }
+  .work:hover .caption h3 { text-decoration-color: var(--ink); }
+}
+.work:focus-visible .caption h3 { text-decoration-color: var(--ink); }
+
+/* 關於 */
+.about {
+  grid-column: 4 / 13;
+  display: grid;
+  grid-template-columns: repeat(9, minmax(0, 1fr));
+  column-gap: var(--gutter);
+}
+.about .portrait { grid-column: 1 / 4; }
+.about .text { grid-column: 5 / 10; }
+.about .text p + p { margin-top: 1.2em; }
+
+/* 資訊列表（關於、作品內頁共用） */
+.facts {
+  display: grid;
+  grid-template-columns: max-content 1fr;   /* 標籤欄自動配合最長的字（中英文都適用） */
+  column-gap: 2em;
+  row-gap: 10px;
+  font-size: 14px;
+  line-height: 1.8;
+}
+.facts dt { color: var(--mute); }
+.about .facts { margin-top: 48px; }
+
+/* ---------- 6. 頁尾 ---------- */
+.footer { margin-top: var(--gap-section); padding-bottom: 56px; }
+.footer .contact { grid-column: 4 / 13; }
+.footer .email { font-size: 20px; }
+.footer .social { display: flex; gap: 28px; margin-top: 12px; font-size: 14px; }
+.footer .social a { border-bottom: 1px solid transparent; transition: border-color .4s; }
+.footer .social a:hover { border-color: var(--ink); }
+.footer .copy { grid-column: 4 / 13; margin-top: 120px; }
+
+/* ---------- 7. 作品內頁 ---------- */
+.p-head { margin-top: 48px; align-items: end; }
+.p-head .section-label { padding-bottom: 10px; }
+.p-title { grid-column: 4 / 13; }
+.p-title h1 {
+  font-size: 40px;
+  font-weight: 300;
+  line-height: 1.4;
+  letter-spacing: 0.12em;
+  text-wrap: balance;
+}
+.p-title .small { display: block; margin-top: 8px; }
+
+.p-lead { margin-top: 56px; }
+.p-lead .plate { grid-column: 1 / 13; }
+
+.p-info { margin-top: 96px; align-items: start; }
+.p-info .facts { grid-column: 1 / 4; }
+.p-info .text { grid-column: 4 / 10; }
+.p-info .text p + p { margin-top: 1.4em; }
+
+.p-gallery { margin-top: 160px; row-gap: 120px; align-items: start; }
+.g-1 { grid-column: 4 / 13; }
+.g-2 { grid-column: 1 / 6; }
+.g-3 { grid-column: 8 / 12; margin-top: 30%; }
+.g-4 { grid-column: 1 / 13; }
+.g-5 { grid-column: 3 / 8; }
+.g-6 { grid-column: 9 / 13; margin-top: 50%; }
+figure figcaption { margin-top: 12px; }
+
+.p-nav-rule { max-width: var(--page); margin: var(--gap-section) auto 0; padding: 0 var(--side); }
+.p-nav-rule hr { border: 0; border-top: 1px solid var(--line); }
+.p-nav { padding-top: 28px; font-size: 14px; line-height: 1.8; align-items: start; }
+.p-nav .prev { grid-column: 1 / 5; justify-self: start; }
+.p-nav .all  { grid-column: 5 / 9; justify-self: center; }
+.p-nav .next { grid-column: 9 / 13; justify-self: end; text-align: right; }
+.p-nav .small { display: block; }
+.p-nav .t { border-bottom: 1px solid transparent; transition: border-color .4s; }
+.p-nav a:hover .t { border-color: var(--ink); }
+
+/* ---------- 8. 404 ---------- */
+.notfound { margin-top: 160px; min-height: 40vh; }
+.notfound .text { grid-column: 4 / 10; }
+.notfound h1 { font-size: 28px; font-weight: 300; letter-spacing: 0.12em; }
+.notfound p { margin-top: 16px; }
+.notfound .more { display: inline-block; margin-top: 40px; font-size: 14px; }
+
+/* ---------- 8b. English version ----------
+   These rules switch on automatically when the page says <html lang="en">.
+   Chinese needs wide letter spacing and tall lines; English reads better without them. */
+:lang(en) body {
+  font-size: 17px;
+  line-height: 1.75;
+  letter-spacing: 0;
+}
+:lang(en) .about .text,
+:lang(en) .p-info .text { font-weight: 400; }   /* thin Latin serif is too faint for body text */
+:lang(en) .small { letter-spacing: 0.02em; }
+:lang(en) .header .name { letter-spacing: 0.04em; }
+:lang(en) .intro p { font-size: 22px; line-height: 1.6; }
+:lang(en) .p-title h1 { letter-spacing: 0; line-height: 1.25; }
+:lang(en) .notfound h1 { letter-spacing: 0; }
+:lang(en) .footer .email { letter-spacing: 0; }
+
+/* Vertical name: English is rotated like a book spine, instead of stacked letter by letter */
+:lang(en) .hero-title { gap: 14px; }
+:lang(en) .hero-title > span {
+  width: auto;
+  writing-mode: vertical-rl;
+  word-break: normal;
+  white-space: nowrap;
+}
+:lang(en) .hero-title .main { line-height: 1; letter-spacing: 0.02em; }
+:lang(en) .hero-title .sub  { line-height: 1; letter-spacing: 0.04em; margin-top: 4px; }
+
+/* ---------- 9. 平板 ---------- */
+@media (max-width: 1080px) {
+  :root { --side: 40px; --gutter: 24px; --gap-section: 160px; }
+  .intro p, .intro .more, .p-info .text, .notfound .text { grid-column: 4 / 12; }
+  .work-3 { grid-column: 6 / 10; }
+  .about .portrait { grid-column: 1 / 5; }
+  .about .text { grid-column: 5 / 10; }
+}
+
+/* ---------- 9. 手機 ---------- */
+@media (max-width: 760px) {
+  :root { --side: 22px; --gutter: 16px; --gap-section: 120px; }
+  body { font-size: 15px; }
+
+  .header { padding-top: 22px; padding-bottom: 22px; }
+  .header .name { grid-column: 1 / 9; }
+  .header nav { grid-column: 9 / 13; }
+  .menu-btn {
+    display: block;
+    background: none; border: 0;
+    font: inherit; font-size: 14px; color: var(--ink);
+    cursor: pointer;
+    padding: 4px 0;
+  }
+  .header ul {
+    display: none;
+    position: absolute; left: 0; right: 0; top: 64px;
+    flex-direction: column; align-items: flex-end; gap: 14px;
+    background: var(--paper);
+    padding: 12px var(--side) 24px;
+    border-bottom: 1px solid var(--line);
+    z-index: 10;
+  }
+  .header ul.open { display: flex; }
+
+  .hero { margin-top: 16px; }
+  .hero-title {
+    grid-column: 1 / 13;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 28px;
+  }
+  .hero-title > span { width: auto; }
+  .hero-title .main { font-size: 32px; line-height: 1.2; letter-spacing: 0.25em; }
+  .hero-title .sub  { margin-top: 0; letter-spacing: 0.3em; }
+  .hero-image, .hero-caption { grid-column: 1 / 13; }
+
+  .intro { margin-top: 88px; }
+  .intro p, .intro .more { grid-column: 1 / 13; }
+  .intro p { font-size: 17px; }
+
+  .section-label,
+  .section > .section-label { grid-column: 1 / 13; position: static; margin-bottom: 40px; }
+  .works, .about, .footer .contact, .footer .copy { grid-column: 1 / 13; }
+  .footer .copy { margin-top: 80px; }
+
+  /* 手機上仍保留一點錯落感 */
+  .works { row-gap: 72px; }
+  .work-1, .work-4 { grid-column: 1 / 10; }
+  .work-2 { grid-column: 1 / 8; }
+  .work-3 { grid-column: 3 / 10; margin-top: 0; }
+
+  .about .portrait { grid-column: 1 / 6; }
+  .about .text { grid-column: 1 / 10; margin-top: 40px; }
+
+  .p-head { margin-top: 16px; }
+  .p-head .section-label { margin-bottom: 8px; padding-bottom: 0; }
+  .p-title { grid-column: 1 / 13; }
+  .p-title h1 { font-size: 28px; }
+  .p-lead { margin-top: 32px; }
+  .p-info { margin-top: 56px; }
+  .p-info .facts, .p-info .text { grid-column: 1 / 13; }
+  .p-info .text { margin-top: 40px; }
+  .p-gallery { row-gap: 64px; margin-top: 88px; }
+  .g-1, .g-4 { grid-column: 1 / 13; }
+  .g-2, .g-5 { grid-column: 1 / 10; }
+  .g-3, .g-6 { grid-column: 4 / 13; margin-top: 0; }
+
+  .p-nav .prev { grid-column: 1 / 7; }
+  .p-nav .next { grid-column: 7 / 13; }
+  .p-nav .all  { grid-column: 1 / 13; grid-row: 2; margin-top: 32px; }
+
+  .notfound { margin-top: 88px; }
+  .notfound .text { grid-column: 1 / 13; }
+
+  /* English on phones */
+  :lang(en) body { font-size: 16px; }
+  :lang(en) p { hyphens: auto; }   /* break long words neatly in narrow columns */
+  :lang(en) .hero-title > span { writing-mode: horizontal-tb; white-space: normal; }
+  :lang(en) .hero-title .main { font-size: 34px; line-height: 1.15; letter-spacing: 0; }
+  :lang(en) .hero-title .sub  { letter-spacing: 0.02em; line-height: 1.6; }
+  :lang(en) .intro p { font-size: 18px; }
+  :lang(en) .p-title h1 { font-size: 30px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after { animation: none !important; transition: none !important; }
+}
